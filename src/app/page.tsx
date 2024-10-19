@@ -1,3 +1,4 @@
+"use client"
 import Agent from "./../assets/agent.png";
 import Customer from "./../assets/contact-us.png";
 
