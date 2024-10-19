@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-"use client";
-
 import Agent from "./../assets/agent.png";
 import Customer from "./../assets/contact-us.png";
 
@@ -12,15 +9,15 @@ import Image from "next/image";
 export default function Home() {
   const tabs = ["home", "pricing", "features", "aboutus"];
 
-  type TabRef = HTMLButtonElement | null;
-  const [tabRefs, _] = useState<TabRef[]>([]);
+  type TabRef = HTMLDivElement | null;
+  const [tabRefs, setTabRefs] = useState<TabRef[]>([]);
 
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   const hoveredTab = tabRefs[hoveredIdx ?? -1]?.getBoundingClientRect();
 
   return (
     <main className="">
-      {/*Navbar Section */}
+      {/* Navbar Section */}
       <nav
         onMouseLeave={() => {
           setHoveredIdx(null);
@@ -33,22 +30,28 @@ export default function Home() {
         <div>
           <ul className="flex gap-2 font-Mulish">
             {tabs.map((tab, index) => (
-              <Link
-                href={`/${tab}`}
-                ref={(el: HTMLAnchorElement | null) => {
-                  tabRefs[index] = el;
-                }}
+              <div
                 key={tab}
-                className="px-3 py-1.5 z-10 capitalize hover:text-[#fff] duration-300"
-                onPointerEnter={() => setHoveredIdx(index)}
+                ref={(el) => {
+                  const newRefs = [...tabRefs];
+                  newRefs[index] = el;
+                  setTabRefs(newRefs);
+                }}
+                className="relative"
               >
-                {tab}
-              </Link>
+                <Link
+                  href={`/${tab}`}
+                  className="px-3 py-1.5 z-10 capitalize hover:text-[#fff] duration-300"
+                  onPointerEnter={() => setHoveredIdx(index)}
+                >
+                  {tab}
+                </Link>
+              </div>
             ))}
           </ul>
           <AnimatePresence>
             {hoveredTab ? (
-              <motion.button
+              <motion.div
                 className="absolute top-0 left-0 bg-[#333] rounded-md"
                 initial={{
                   top: hoveredTab.top,
@@ -84,7 +87,7 @@ export default function Home() {
           </button>
         </div>
       </nav>
-      {/*Hero Section */}
+      {/* Hero Section */}
       <div>
         <div className="mt-12 flex flex-col items-center">
           <h1 className="text-white text-[90px] font-kanit font-bold text-center">
@@ -109,7 +112,7 @@ export default function Home() {
             <button className="text-[#fff] bg-[#111] font-Mulish px-4 py-2 rounded-lg hover:font-semibold scale-105 hover:scale-125 duration-300">
               Try now
             </button>
-            <button className="text-[#333] bg-[#fff] font-Mulish px-4 py-2 rounded-lg hover:font-semibold scale-105  hover:scale-125 duration-500">
+            <button className="text-[#333] bg-[#fff] font-Mulish px-4 py-2 rounded-lg hover:font-semibold scale-105 hover:scale-125 duration-500">
               Learn more
             </button>
           </div>
@@ -123,10 +126,8 @@ export default function Home() {
           </div>
         </div>
       </div>
-      {/*Features */}
-      <div>
-        
-      </div>
+      {/* Features */}
+      <div></div>
     </main>
   );
 }
