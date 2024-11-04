@@ -1,20 +1,24 @@
-"use client"
+"use client";
 import Agent from "./../assets/agent.png";
 import Customer from "./../assets/contact-us.png";
-
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 
 export default function Home() {
   const tabs = ["home", "pricing", "features", "aboutus"];
-
-  type TabRef = HTMLDivElement | null;
-  const [tabRefs, setTabRefs] = useState<TabRef[]>([]);
-
+  
+  const tabRefs = useRef<(HTMLDivElement | null)[]>([]); // Use useRef instead of useState
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
-  const hoveredTab = tabRefs[hoveredIdx ?? -1]?.getBoundingClientRect();
+  const hoveredTab = hoveredIdx !== null ? tabRefs.current[hoveredIdx]?.getBoundingClientRect() : null;
+
+  useEffect(() => {
+    // Clear tabRefs on component unmount to prevent memory leaks
+    return () => {
+      tabRefs.current = [];
+    };
+  }, []);
 
   return (
     <main className="">
@@ -34,10 +38,9 @@ export default function Home() {
               <div
                 key={tab}
                 ref={(el) => {
-                  const newRefs = [...tabRefs];
-                  newRefs[index] = el;
-                  setTabRefs(newRefs);
+                  if (el) tabRefs.current[index] = el;
                 }}
+                
                 className="relative"
               >
                 <Link
