@@ -5,13 +5,17 @@ import { useState, useRef, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
+import FeatureSidebar from "@/components/landing-page/FeatureSidebar";
 
 export default function Home() {
   const tabs = ["home", "pricing", "features", "aboutus"];
-  
+
   const tabRefs = useRef<(HTMLDivElement | null)[]>([]); // Use useRef instead of useState
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
-  const hoveredTab = hoveredIdx !== null ? tabRefs.current[hoveredIdx]?.getBoundingClientRect() : null;
+  const hoveredTab =
+    hoveredIdx !== null
+      ? tabRefs.current[hoveredIdx]?.getBoundingClientRect()
+      : null;
 
   useEffect(() => {
     // Clear tabRefs on component unmount to prevent memory leaks
@@ -40,7 +44,6 @@ export default function Home() {
                 ref={(el) => {
                   if (el) tabRefs.current[index] = el;
                 }}
-                
                 className="relative"
               >
                 <Link
@@ -131,7 +134,24 @@ export default function Home() {
         </div>
       </div>
       {/* Features */}
-      <div></div>
+      <div className="bg-[#f6f6f6] mt-12 pb-16 relative">
+        <h1 className="text-black py-8 text-[56px] font-kanit font-bold text-center">
+          Features that makes us different
+        </h1>
+        <FeatureSidebar />
+        <div className="absolute right-12 bottom-0">
+          <div className="w-0 h-0 border-l-[100px] border-l-transparent border-r-[100px] border-r-transparent border-b-[100px] border-b-[#333]"></div>
+        </div>
+      </div>
+      {/* How it works */}
+      <div className="relative">
+        <h1 className="text-white py-8 text-[56px] font-kanit font-bold text-center">
+          How it works?
+        </h1>
+        <div className="absolute top-0 left-12">
+          <div className="w-0 h-0 border-l-[100px] border-l-transparent border-t-[100px] border-t-[#f6f6f6] border-r-[100px] border-r-transparent"></div>
+        </div>
+      </div>
     </main>
   );
 }
